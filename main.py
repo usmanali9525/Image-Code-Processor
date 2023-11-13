@@ -1,18 +1,15 @@
 import cv2
-import numpy as np
 from pylibdmtx.pylibdmtx import decode
-from PIL import Image
 import time
 import math
 
 start_time = time.time()
 
-img = cv2.imread('download (1).png')
+image = cv2.imread('dotpeen-applications.jpg', cv2.IMREAD_GRAYSCALE)
+blurred = cv2.GaussianBlur(image, (5, 5), 0)
+_, binary_image = cv2.threshold(blurred, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
 
-pil_image = Image.fromarray(np.uint8(img))
-
-# Decode the Data Matrix code
-decoded_objects = decode(pil_image)
+decoded_objects = decode(binary_image)
 
 if decoded_objects:
     for obj in decoded_objects:
