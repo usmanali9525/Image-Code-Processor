@@ -5,9 +5,10 @@ import math
 
 start_time = time.time()
 
-image = cv2.imread('Dot Peen Large.jpg', cv2.IMREAD_GRAYSCALE)
+image = cv2.imread('TestingImages\Test2.png', cv2.IMREAD_GRAYSCALE)
 blurred = cv2.GaussianBlur(image, (5, 5), 0)
 _, binary_image = cv2.threshold(blurred, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
 
 decoded_objects = decode(binary_image)
 
@@ -20,3 +21,6 @@ else:
 end_time = time.time()
 elapsed_time_ms = (end_time - start_time) * 1000
 print(f'Time taken to decode the image: {math.ceil(elapsed_time_ms)} milliseconds')
+
+# cv2.imshow('image', binary_image)
+# cv2.waitKey(0)
