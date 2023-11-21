@@ -5,8 +5,7 @@ import math
 
 start_time = time.time()
 
-image = cv2.imread('TestingImages\Test1.jpg', cv2.IMREAD_GRAYSCALE)
-#cv2.imshow('Image', image)
+image = cv2.imread('TestingImages\Test.8.jpg', cv2.IMREAD_GRAYSCALE)
 
 decoded_objects = decode(image)
 
@@ -17,6 +16,7 @@ if decoded_objects:
 elif not decoded_objects:
     blurred = cv2.GaussianBlur(image, (5, 5), 0)
     _, binary_image = cv2.threshold(blurred, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    cv2.imshow('Image', binary_image)
     decoded_objects2 = decode(binary_image)
 
     if decoded_objects2:
@@ -31,6 +31,5 @@ else:
 end_time = time.time()
 elapsed_time_ms = (end_time - start_time) * 1000
 print(f'Time taken to decode the image: {math.ceil(elapsed_time_ms)} milliseconds')
-
 
 cv2.waitKey(0)
