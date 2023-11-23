@@ -69,7 +69,6 @@ def process_image_api():
         content = request.get_json()
         base64_string = content['base64_string']
         processing_type = content['processing_type']
-        #additional_input = content['additional_input']
 
         response_data = process_image(base64_string, processing_type)
 
