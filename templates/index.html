@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barcode Processing</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        textarea,
+        select,
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #results {
+            margin-top: 20px;
+        }
+
+        div.result {
+            background-color: #fff;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+        }
+
+        div.message {
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <h1>Processing</h1>
+    
+    <form id="imageForm">
+        <label for="base64String">Base64 Image String:</label>
+        <textarea id="base64String" name="base64String" rows="4" cols="50"></textarea>
+
+        <label for="processingType">Select Processing Type:</label>
+        <select id="processingType" name="processingType" onchange="showInputFields()">
+            <option value="1">DataMatrix</option>
+            <option value="2">BarCode</option>
+            <option value="3">QRCode</option>
+            <option value="4">DotPeenMatrix</option>
+        </select>
+
+        <button type="button" onclick="processImage()">Process Image</button>
+    </form>
+
+    <div id="results"></div>
+
+    <script>
+        function showInputFields() {
+            var processingType = document.getElementById('processingType').value;
+            var inputFieldsDiv = document.getElementById('inputFields');
+
+            if (processingType === '4') {
+                inputFieldsDiv.style.display = 'block';
+            } else {
+                inputFieldsDiv.style.display = 'none';
+            }
+        }
+
+        function processImage() {
+            var base64String = document.getElementById('base64String').value;
+            var processingType = document.getElementById('processingType').value;
+
+            var requestData = {
+                base64_string: base64String,
+                processing_type: processingType,
+            };
+
+            fetch('http://127.0.0.1:5000/process_image', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestData)
+            })
+            .then(response => response.json())
+            .then(data => displayResults(data))
+            .catch(error => console.error('Error:', error));
+        }
+
+        function displayResults(results) {
+            var resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '';
+
+            for (var i = 0; i < results.length; i++) {
+                var result = results[i];
+                var resultElement = document.createElement('div');
+                resultElement.className = 'result';
+
+                if ('message' in result) {
+                    resultElement.innerHTML = '<div class="message">' + result['message'] + '</div>';
+                } else {
+                    for (var key in result) {
+                        resultElement.innerHTML += '<strong>' + key + ':</strong> ' + result[key] + '<br>';
+                    }
+                }
+
+                resultsDiv.appendChild(resultElement);
+            }
+        }
+    </script>
+</body>
+</html>
