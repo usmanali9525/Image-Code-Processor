@@ -68,7 +68,7 @@ def camera_stream():
             print("Failed to read from camera.")
             break
 
-        processed_data = process_image(frame, '4')  # Adjust the processing type as needed
+        processed_data = process_image(frame, '1')  # Adjust the processing type as needed
 
         _, encoded_frame = cv2.imencode('.jpg', frame)
         yield (b'--frame\r\n'

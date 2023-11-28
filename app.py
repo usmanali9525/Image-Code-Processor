@@ -4,7 +4,6 @@ from pylibdmtx.pylibdmtx import decode
 from pyzbar import pyzbar
 import base64
 import numpy as np
-import json
 
 app = Flask(__name__)
 

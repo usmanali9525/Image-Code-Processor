@@ -1,17 +1,17 @@
 import cv2
-from pylibdmtx.pylibdmtx import decode
+from pylibdmtx import pylibdmtx
 from pyzbar import pyzbar
 import base64
 import numpy as np
 import json
 
-base64_string = "Base64 Data"
+# base64_string = "Base64 Data"
 
-image_data = base64.b64decode(base64_string.split(',')[1])
-image_np = np.frombuffer(image_data, np.uint8)
-image = cv2.imdecode(image_np, cv2.IMREAD_GRAYSCALE)
+# image_data = base64.b64decode(base64_string.split(',')[1])
+# image_np = np.frombuffer(image_data, np.uint8)
+# image = cv2.imdecode(image_np, cv2.IMREAD_GRAYSCALE)
 
-#image = cv2.imread('TestingImages\Test5.png', cv2.IMREAD_GRAYSCALE)
+image = cv2.imread('TestingImages\Test5.png', cv2.IMREAD_GRAYSCALE)
 
 while True:
     print('Press 1 for DataMatrix')
@@ -22,7 +22,7 @@ while True:
     Number = int(input('Enter Number: '))
 
     if Number == 1:
-        decoded_objects = decode(image)
+        decoded_objects = pylibdmtx.decode(image)
 
         if decoded_objects:
             for obj in decoded_objects:
@@ -60,7 +60,7 @@ while True:
         blurred = cv2.GaussianBlur(image, (5, 5), 0)
         _, binary_image = cv2.threshold(blurred, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
         #cv2.imshow('Image', binary_image)
-        decoded_objects2 = decode(binary_image)
+        decoded_objects2 = pylibdmtx.decode(binary_image)
 
         if decoded_objects2:
             for obj in decoded_objects2:
