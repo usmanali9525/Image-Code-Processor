@@ -6,7 +6,6 @@ import numpy as np
 import json
 
 # base64_string = "Base64 Data"
-
 # image_data = base64.b64decode(base64_string.split(',')[1])
 # image_np = np.frombuffer(image_data, np.uint8)
 # image = cv2.imdecode(image_np, cv2.IMREAD_GRAYSCALE)
@@ -33,12 +32,8 @@ while True:
             print('No Data Matrix code found in the image.')
 
     elif Number == 2:
-        #blurred_image = cv2.GaussianBlur(image, (5, 5), 0)
-        #_, threshold_image = cv2.threshold(blurred_image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-        # barcodes = pyzbar.decode(threshold_image)
         barcodes = pyzbar.decode(image) 
         if barcodes:
-        # Process each barcode found
             for barcode in barcodes:
                 barcode_data = barcode.data.decode('utf-8')
                 barcodeJson = {"Barcode": barcode_data}
@@ -48,8 +43,7 @@ while True:
             print('No BarCode Detected')
     elif Number == 3:
         barcodes = pyzbar.decode(image) 
-        
-        # Process each barcode found
+    
         for barcode in barcodes:
             barcode_data = barcode.data.decode('utf-8')
             barcodeJson = {"Decoded Dot Peen Matrix": barcode_data}
@@ -59,9 +53,7 @@ while True:
     elif Number == 4:
         blurred = cv2.GaussianBlur(image, (5, 5), 0)
         _, binary_image = cv2.threshold(blurred, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-        #cv2.imshow('Image', binary_image)
         decoded_objects2 = pylibdmtx.decode(binary_image)
-
         if decoded_objects2:
             for obj in decoded_objects2:
                 barcodeJson = {"Decoded Dot Peen Matrix": obj.data.decode("utf-8")}
