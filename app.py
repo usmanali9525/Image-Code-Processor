@@ -4,12 +4,11 @@ from pylibdmtx.pylibdmtx import decode
 from pyzbar import pyzbar
 import base64
 import numpy as np
-import json
 
 app = Flask(__name__)
 
 def process_image(base64_string, processing_type):
-    image_data = base64.b64decode(base64_string)
+    image_data = base64.b64decode(base64_string.split(',')[1])
     image_np = np.frombuffer(image_data, np.uint8)
     image = cv2.imdecode(image_np, cv2.IMREAD_GRAYSCALE)
 
