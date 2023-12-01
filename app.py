@@ -3,9 +3,10 @@ import cv2
 from pylibdmtx.pylibdmtx import decode
 from pyzbar import pyzbar
 import base64
+import streamlit as st
 import numpy as np
 
-app = Flask(__name__)
+#app = Flask(__name__)
 
 def process_image(base64_string, processing_type):
     image_data = base64.b64decode(base64_string.split(',')[1])
@@ -58,23 +59,34 @@ def process_image(base64_string, processing_type):
 
     return response_data
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+# @app.route('/')
+# def index():
+#     return render_template('index.html')
 
-@app.route('/process_image', methods=['POST'])
-def process_image_api():
-    try:
-        content = request.get_json()
-        base64_string = content['base64_string']
-        processing_type = content['processing_type']
+# @app.route('/process_image', methods=['POST'])
+# def process_image_api():
+#     try:
+#         content = request.get_json()
+#         base64_string = content['base64_string']
+#         processing_type = content['processing_type']
 
+#         response_data = process_image(base64_string, processing_type)
+
+#         return jsonify(response_data)
+
+#     except Exception as e:
+#         return jsonify({'error': str(e)})
+
+def main():
+    st.title("Your Streamlit App Title")
+
+    base64_string = st.text_area("Enter Base64 String:")
+    processing_type = st.selectbox("Select Processing Type", ["1", "2", "3", "4"])
+
+    if st.button("Process Image"):
         response_data = process_image(base64_string, processing_type)
-
-        return jsonify(response_data)
-
-    except Exception as e:
-        return jsonify({'error': str(e)})
+        st.json(response_data)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    #app.run(debug=True)
+    main()
