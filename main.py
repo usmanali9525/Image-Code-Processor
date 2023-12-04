@@ -10,7 +10,7 @@ import json
 # image_np = np.frombuffer(image_data, np.uint8)
 # image = cv2.imdecode(image_np, cv2.IMREAD_GRAYSCALE)
 
-image = cv2.imread('TestingImages\Test5.png', cv2.IMREAD_GRAYSCALE)
+image = cv2.imread('TestingImages\GS1 DM.png', cv2.IMREAD_GRAYSCALE)
 
 while True:
     print('Press 1 for DataMatrix')
