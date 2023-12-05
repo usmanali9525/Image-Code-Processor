@@ -10,7 +10,7 @@ import json
 # image_np = np.frombuffer(image_data, np.uint8)
 # image = cv2.imdecode(image_np, cv2.IMREAD_GRAYSCALE)
 
-image = cv2.imread('TestingImages\GS1 DM.png', cv2.IMREAD_GRAYSCALE)
+image = cv2.imread('TestingImages\download.png', cv2.IMREAD_GRAYSCALE)
 
 while True:
     print('Press 1 for DataMatrix')
@@ -36,7 +36,7 @@ while True:
         if barcodes:
             for barcode in barcodes:
                 barcode_data = barcode.data.decode('utf-8')
-                barcodeJson = {"Barcode": barcode_data}
+                barcodeJson = {"Decoded BarCode": barcode_data}
                 json_output = json.dumps(barcodeJson, indent=2)
                 print(json_output)
         else: 
@@ -46,7 +46,7 @@ while True:
     
         for barcode in barcodes:
             barcode_data = barcode.data.decode('utf-8')
-            barcodeJson = {"Decoded Dot Peen Matrix": barcode_data}
+            barcodeJson = {"Decoded QR Code": barcode_data}
             json_output = json.dumps(barcodeJson, indent=2)
             print(json_output)
 
